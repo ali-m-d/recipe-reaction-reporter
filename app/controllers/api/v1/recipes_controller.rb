@@ -7,7 +7,12 @@ class Api::V1::RecipesController < ApplicationController
   def create
     image = Cloudinary::Uploader.upload(params[:image])
     
-    recipe = Recipe.create!(name: params[:name], ingredients: params[:ingredients], instruction: params[:instruction], image: image["url"])
+    recipe = Recipe.create!(name: params[:name], ingredients: [], instruction: params[:instruction], image: image["url"])
+    JSON.parse(params[:ingredients]).each do |i|
+      recipe.ingredients << i
+    end
+    recipe.save
+    
     if recipe
       render json: recipe
     else

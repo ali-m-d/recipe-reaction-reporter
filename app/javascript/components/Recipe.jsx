@@ -66,11 +66,10 @@ class Recipe extends React.Component {
     
     render() {
         const { recipe } = this.state;
-        let ingredientList = "No ingredients available";
+        let ingredientList = [];
         
         if (recipe.ingredients.length > 0) {
             ingredientList = recipe.ingredients
-            .split(';')
             .map((ingredient, index) => (
                 <li key={index} className="list-group-item">
                     {ingredient}

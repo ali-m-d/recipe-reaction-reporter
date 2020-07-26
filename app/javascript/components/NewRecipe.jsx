@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Formsy } from 'formsy-react';
 
 class NewRecipe extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             name: "",
-            ingredients: "",
+            ingredients: [],
             instruction: "",
             image: null
         };
@@ -28,8 +27,30 @@ class NewRecipe extends React.Component {
         this.setState({[event.target.name]: event.target.value});
     }
     
+    onIngredientChange = (idx) => (event) => {
+        const newIngredients = this.state.ingredients.map((ingredient, _idx) => {
+            if (_idx !== idx) {
+                return ingredient;
+            }
+            return event.target.value;
+        });
+        
+        this.setState({ingredients: newIngredients})
+    }
+    
     onImageChange(event) {
         this.setState({image: event.target.files[0]});
+    }
+    
+    handleAddIngredient = () => {
+        this.setState({
+            ingredients: this.state.ingredients.concat("")
+        })
+    }
+    handleRemoveIngredient = (idx) => () => {
+        this.setState({
+            ingredients: this.state.ingredients.filter((i, _idx) => _idx !== idx)
+        })
     }
     
     onSubmit(event) {
@@ -38,7 +59,7 @@ class NewRecipe extends React.Component {
         
         const formData = new FormData();
         formData.append('name', this.state.name);
-        formData.append('ingredients', this.state.ingredients);
+        formData.append('ingredients', JSON.stringify(this.state.ingredients));
         formData.append('instruction', this.state.instruction);
         formData.append('image', this.state.image);
         
@@ -59,38 +80,6 @@ class NewRecipe extends React.Component {
         })
         .then((resp) => {this.props.history.push(`/recipe/${resp.id}`)})
         .catch((err) => {console.log(err.message)});
-        
-        // const {name, ingredients, instruction} = this.state;
-        
-        // if (name.length == 0 || ingredients.length == 0 || instruction.length == 0) {
-        //     return;
-        // }
-        
-        // const body = {
-        //     name,
-        //     ingredients,
-        //     instruction: instruction.replace(/\n/g, "<br> <br>"),
-        //     image
-        // };
-        
-        // const token = document.querySelector('meta[name="csrf-token"]').content;
-        // fetch(url, {
-        //     method: "POST",
-        //     headers: {
-        //         "X-CSRF-Token": token,
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(body)
-        // })
-        // .then((resp) => {
-        //     if (resp.ok) {
-        //         return resp.json();
-        //     } else {
-        //         throw new Error('Network response was not ok');
-        //     }
-        // })
-        // .then((resp) => {this.props.history.push(`/recipe/${resp.id}`)})
-        // .catch((err) => {console.log(err.message)});
     }
     
     render() {
@@ -115,17 +104,30 @@ class NewRecipe extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="recipeIngredients">Ingredients</label>
-                                <input
-                                    type="text"
-                                    name="ingredients"
-                                    id="recipeIngredients"
-                                    className="form-control"
-                                    required
-                                    onChange={this.onChange}
-                                />
-                                <small id="ingredientsHelp" className="form-text text-muted">
-                                    Separate each ingredient with a semicolon
-                                </small>
+                                {this.state.ingredients.map((ingredient, idx) => (
+                                    <div className="ingredient">
+                                        <input
+                                            type="text"
+                                    
+                                            onChange={this.onIngredientChange(idx)}
+                                            className="form-control"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={this.handleRemoveIngredient(idx)}
+                                            className="small"
+                                        >
+                                            -
+                                        </button>
+                                    </div>
+                                ))}
+                                <button
+                                    type="button"
+                                    onClick={this.handleAddIngredient}
+                                    className="small"
+                                >
+                                    Add Ingredient
+                                </button>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="recipeImage">Image</label>
