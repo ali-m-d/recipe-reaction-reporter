@@ -5,7 +5,9 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def create
-    recipe = Recipe.create!(recipe_params)
+    image = Cloudinary::Uploader.upload(params[:image])
+    
+    recipe = Recipe.create!(name: params[:name], ingredients: params[:ingredients], instruction: params[:instruction], image: image["url"])
     if recipe
       render json: recipe
     else
@@ -29,7 +31,7 @@ class Api::V1::RecipesController < ApplicationController
   private
   
   def recipe_params
-    params.permit(:name, :image, :ingredients, :instruction)
+    params.permit(:name, :ingredients, :instruction, :image)
   end
   
   def recipe

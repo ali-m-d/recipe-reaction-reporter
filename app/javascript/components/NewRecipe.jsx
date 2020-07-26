@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Formsy } from 'formsy-react';
 
 class NewRecipe extends React.Component {
     constructor(props) {
@@ -7,10 +8,12 @@ class NewRecipe extends React.Component {
         this.state = {
             name: "",
             ingredients: "",
-            instruction: ""
+            instruction: "",
+            image: null
         };
         
         this.onChange = this.onChange.bind(this);
+        this.onImageChange = this.onImageChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.stripHtmlEntities = this.stripHtmlEntities.bind(this);
     }
@@ -25,29 +28,27 @@ class NewRecipe extends React.Component {
         this.setState({[event.target.name]: event.target.value});
     }
     
+    onImageChange(event) {
+        this.setState({image: event.target.files[0]});
+    }
+    
     onSubmit(event) {
         event.preventDefault();
         const url = "/api/v1/recipes/create";
-        const {name, ingredients, instruction} = this.state;
         
-        if (name.length == 0 || ingredients.length == 0 || instruction.length == 0) {
-            return;
-        }
-        
-        const body = {
-            name,
-            ingredients,
-            instruction: instruction.replace(/\n/g, "<br> <br>")
-        };
+        const formData = new FormData();
+        formData.append('name', this.state.name);
+        formData.append('ingredients', this.state.ingredients);
+        formData.append('instruction', this.state.instruction);
+        formData.append('image', this.state.image);
         
         const token = document.querySelector('meta[name="csrf-token"]').content;
         fetch(url, {
-            method: "POST",
+            method: 'POST',
             headers: {
                 "X-CSRF-Token": token,
-                "Content-Type": "application/json"
             },
-            body: JSON.stringify(body)
+            body: formData
         })
         .then((resp) => {
             if (resp.ok) {
@@ -58,6 +59,38 @@ class NewRecipe extends React.Component {
         })
         .then((resp) => {this.props.history.push(`/recipe/${resp.id}`)})
         .catch((err) => {console.log(err.message)});
+        
+        // const {name, ingredients, instruction} = this.state;
+        
+        // if (name.length == 0 || ingredients.length == 0 || instruction.length == 0) {
+        //     return;
+        // }
+        
+        // const body = {
+        //     name,
+        //     ingredients,
+        //     instruction: instruction.replace(/\n/g, "<br> <br>"),
+        //     image
+        // };
+        
+        // const token = document.querySelector('meta[name="csrf-token"]').content;
+        // fetch(url, {
+        //     method: "POST",
+        //     headers: {
+        //         "X-CSRF-Token": token,
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify(body)
+        // })
+        // .then((resp) => {
+        //     if (resp.ok) {
+        //         return resp.json();
+        //     } else {
+        //         throw new Error('Network response was not ok');
+        //     }
+        // })
+        // .then((resp) => {this.props.history.push(`/recipe/${resp.id}`)})
+        // .catch((err) => {console.log(err.message)});
     }
     
     render() {
@@ -93,6 +126,16 @@ class NewRecipe extends React.Component {
                                 <small id="ingredientsHelp" className="form-text text-muted">
                                     Separate each ingredient with a semicolon
                                 </small>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="recipeImage">Image</label>
+                                <input
+                                    type="file"
+                                    name="image"
+                                    id="recipeImage"
+                                    accept="image/*"
+                                    onChange={this.onImageChange}
+                                />
                             </div>
                             <label htmlFor="recipeInstruction">Preparation Instructions</label>
                             <textarea

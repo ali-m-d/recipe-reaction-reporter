@@ -1156,6 +1156,13 @@ acorn@^6.4.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.4.1.tgz#531e58ba3f51b9dacb9a6646ca4debf5b14ca474"
   integrity sha512-ZVA9k326Nwrj3Cj9jlh3wGFutC2ZornPNARZwsNYqQYgN0EsV2d53w5RN/co65Ohn4sUAUtb1rSUAOD6XN9idA==
 
+activestorage@^5.2.0:
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/activestorage/-/activestorage-5.2.4.tgz#758650e01cbb2ce0e3e80e4b20a7641a021a5412"
+  integrity sha512-3HDU9nCt/wn4yisSdS7wd32YPZgKRfwq2BE4kA7yuAQYKn+/X2S1sM8nAtnfPQRZIWarabIvGjbVzJNsERAb5Q==
+  dependencies:
+    spark-md5 "^3.0.0"
+
 aggregate-error@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/aggregate-error/-/aggregate-error-3.0.1.tgz#db2fe7246e536f40d9b5442a39e117d7dd6a24e0"
@@ -1908,6 +1915,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.5:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
 
 clean-stack@^2.0.0:
   version "2.2.0"
@@ -3100,6 +3112,24 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
+formsy-react-components@^2.0.0-beta.5:
+  version "2.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/formsy-react-components/-/formsy-react-components-2.0.0-beta.5.tgz#0a39903075521f310e98494b7a0119b0a2c5fea5"
+  integrity sha512-6ioiGb2bPsSF9Ju5YEpsbPEHhnAe/pgOr9IDZsfJ6wxXotTvSmHx83mBxhDCTt7v7dQbJyBu7EtJVC4gTFB0uA==
+  dependencies:
+    classnames "^2.2.5"
+
+formsy-react@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/formsy-react/-/formsy-react-2.0.3.tgz#76858ae2c3553d2a5df50c7d666a8044aa42ab07"
+  integrity sha512-cjD6mMLy2Jx/tTVhofx6rISjNW/TJzm04O05H0Ro3OOTQKC7eDC4ApH6t/StJ7ApYV0FTqOUhj5WbaQGMH+htw==
+  dependencies:
+    lodash.get "^4.4.2"
+    lodash.has "^4.5.2"
+    lodash.isplainobject "^4.0.6"
+    lodash.set "^4.3.2"
+    prop-types "^15.7.2"
+
 forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
@@ -4229,20 +4259,30 @@ lodash._reinterpolate@^3.0.0:
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
 
-lodash.get@^4.0:
+lodash.get@^4.0, lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
-lodash.has@^4.0:
+lodash.has@^4.0, lodash.has@^4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.has/-/lodash.has-4.5.2.tgz#d19f4dc1095058cccbe2b0cdf4ee0fe4aa37c862"
   integrity sha1-0Z9NwQlQWMzL4rDN9O4P5Ko3yGI=
+
+lodash.isplainobject@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
+  integrity sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=
 
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
+
+lodash.set@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+  integrity sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
 
 lodash.template@^4.5.0:
   version "4.5.0"
@@ -6042,6 +6082,14 @@ raw-body@2.4.0:
     http-errors "1.7.2"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
+
+react-activestorage-provider@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-activestorage-provider/-/react-activestorage-provider-0.8.0.tgz#4e64365dc089eb1149e975f90b223ed132b23012"
+  integrity sha512-7I0ujhezFBV6oYaP+U4WUOwn3/3l6NAv1eWOMghp0JUgPwrj0H23MkvaDAhkycVCCAQdKmJdOcraOl+bzD/Q8w==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+    activestorage "^5.2.0"
 
 react-dom@^16.13.1:
   version "16.13.1"
