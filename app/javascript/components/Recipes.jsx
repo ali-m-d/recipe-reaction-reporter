@@ -53,7 +53,7 @@ class Recipes extends React.Component {
         
         return (
             <React.Fragment>
-                <section className="jumbotron jumbotron-fluid text-center">
+                <section className="jumbotron jumbotron-fluid text-center bg-secondary-color">
                     <div className="container py-5">
                         <h1 className="display-4">
                             Recipes for every occasion
