@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
 class NewRecipe extends React.Component {
     constructor(props) {
         super(props);
@@ -103,34 +104,35 @@ class NewRecipe extends React.Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="recipeIngredients">Ingredients</label>
+                                <label htmlFor="recipeIngredients" className="mr-2">Ingredients</label>
                                 {this.state.ingredients.map((ingredient, idx) => (
                                     <div className="ingredient">
-                                        <input
-                                            type="text"
-                                    
-                                            onChange={this.onIngredientChange(idx)}
-                                            className="form-control"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={this.handleRemoveIngredient(idx)}
-                                            className="small"
-                                        >
-                                            -
-                                        </button>
+                                        <div className="d-flex flex-row mb-2">
+                                            <input
+                                                type="text"
+                                                onChange={this.onIngredientChange(idx)}
+                                                className="form-control mr-2"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={this.handleRemoveIngredient(idx)}
+                                                className="btn btn-sm btn-secondary"
+                                            >
+                                                -
+                                            </button>
+                                        </div>
                                     </div>
                                 ))}
                                 <button
                                     type="button"
                                     onClick={this.handleAddIngredient}
-                                    className="small"
+                                    className="btn btn-sm btn-secondary"
                                 >
                                     Add Ingredient
                                 </button>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="recipeImage">Image</label>
+                                <label htmlFor="recipeImage" className="pr-2">Image</label>
                                 <input
                                     type="file"
                                     name="image"
@@ -148,7 +150,7 @@ class NewRecipe extends React.Component {
                                 required
                                 onChange={this.onChange}
                             />
-                            <button type="submit" className="btn custom-button mt-3">
+                            <button type="submit" className="btn btn-info mt-3">
                                 Create Recipe
                             </button>
                             <Link to="/recipes" className="btn btn-link mt-3">
