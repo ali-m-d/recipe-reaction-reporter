@@ -1,0 +1,19 @@
+<div className="col-sm-12 col-lg-2">
+    <button type="button" className="btn btn-danger" onClick={this.deleteRecipe}>
+        Delete Recipe
+    </button>
+</div>
+
+                    <Link
+                            to={
+                                    {
+                                        pathname: `/recipe/${recipe.id}`,
+                                        state: {
+                                            loggedInStatus: this.props.loggedInStatus
+                                        }
+                                    }
+                                }
+                            className="btn btn-info"
+                        >
+                            View Recipe
+                        </Link>

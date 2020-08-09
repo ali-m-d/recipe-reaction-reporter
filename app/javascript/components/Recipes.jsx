@@ -10,6 +10,7 @@ class Recipes extends React.Component {
     }
     
     componentDidMount() {
+        
         const url = "/api/v1/recipes/index";
         fetch(url)
         .then((resp) => {
@@ -27,6 +28,7 @@ class Recipes extends React.Component {
         const { recipes } = this.state;
         const allRecipes = recipes.map((recipe, index) => (
             <div key={index} className="col-md-6 col-lg-4">
+            {this.props.loggedInStatus}
                 <div className="card mb-4">
                     <img
                         src={recipe.image}

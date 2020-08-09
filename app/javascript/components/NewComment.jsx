@@ -1,15 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 
-class Registration extends React.Component {
+class NewComment extends React.Component {
     constructor(props) {
         super(props);
         
         this.state = {
-            email: "",
-            password: "",
-            password_confirmation: "",
-            registrationErrors: ""
+            content: ""
         };
         
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,24 +23,23 @@ class Registration extends React.Component {
         
         const {
             username,
-            password,
-            password_confirmation
+            password
         } = this.state;
         
         axios.post(
-            "api/v1/registrations", {
+            "api/v1/sessions", {
             user: {
                 username: username,
-                password: password,
-                password_confirmation: password_confirmation
+                password: password
             }
         },
         {
             withCredentials: true
         })
         .then(res => {
-            if (res.data.status === 'created') {
-                this.props.handleSuccessfulAuth(res.data);  
+            if (res.data.logged_in) {
+                this.props.handleSuccessfulAuth(res.data); 
+                console.log("calling handleSuccessfulAuth()");
             }
             console.log(res);
         })
@@ -55,12 +51,9 @@ class Registration extends React.Component {
     
     render() {
         return(
-            <div className="container mt-5">
+            <div className="container">
                 <div className="row">
                     <div className="col-sm-12 col-lg-6 offset-lg-3">
-                        <h1 className="font-weight-normal mb-5">
-                            Register
-                        </h1>
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <input
@@ -81,20 +74,11 @@ class Registration extends React.Component {
                                     onChange={this.handleChange}
                                     required
                                 />
-                                <input
-                                    type="password"
-                                    name="password_confirmation"
-                                    placeholder="password"
-                                    className="form-control"
-                                    value={this.state.password_confirmation}
-                                    onChange={this.handleChange}
-                                    required
-                                />
                                 <button
                                     type="submit"
                                     className="btn btn-info mt-3"
                                 >
-                                    Register
+                                    Login
                                 </button>
                             </div>
                         </form>
@@ -105,4 +89,4 @@ class Registration extends React.Component {
     }
 }
 
-export default Registration;
+export default NewComment;

@@ -1,12 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import  NewComment  from '../components/NewComment';
 
 class Recipe extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {recipe: {ingredients: ""}};
+        this.state = {
+            recipe: {ingredients: ""},
+            loggedInStatus: JSON.parse(localStorage.getItem("user")) && "LOGGED_IN",
+            showCommentForm: false, 
+            showCommentRefusal: false
+        };
         this.addHtmlEntities = this.addHtmlEntities.bind(this);
-        this.deleteRecipe = this.deleteRecipe.bind(this);
+        // this.deleteRecipe = this.deleteRecipe.bind(this);
+    }
+    
+    showCommentForm = (flag) => {
+        if (this.state.loggedInStatus === "LOGGED_IN") {
+            this.setState({
+                showCommentForm: flag
+            });    
+        }
+        this.showCommentRefusal(flag);
+    }
+    
+    showCommentRefusal = (flag) => {
+        if (this.state.loggedInStatus !== "LOGGED_IN") {
+            this.setState({
+                showCommentRefusal: flag 
+            });
+        }
     }
     
     componentDidMount() {
@@ -15,6 +38,7 @@ class Recipe extends React.Component {
                 params: {id}
             }
         } = this.props;
+        
         
         const url = `/api/v1/show/${id}`;
         
@@ -27,7 +51,7 @@ class Recipe extends React.Component {
             }
         })
         .then((resp) => {this.setState({recipe: resp})})
-        .catch(() => {this.props.history.push('/recipes')})
+        .catch(() => {this.props.history.push('/recipes')});
     }
     
     addHtmlEntities(str) {
@@ -36,33 +60,33 @@ class Recipe extends React.Component {
         .replace(/&gt;/g, '>');
     }
     
-    deleteRecipe() {
-        const {
-            match: {
-                params: {id}
-            }
-        } = this.props;
+    // deleteRecipe() {
+    //     const {
+    //         match: {
+    //             params: {id}
+    //         }
+    //     } = this.props;
         
-        const url = `/api/v1/destroy/${id}`;
-        const token = document.querySelector('meta[name="csrf-token"]').content;
+    //     const url = `/api/v1/destroy/${id}`;
+    //     const token = document.querySelector('meta[name="csrf-token"]').content;
         
-        fetch(url, {
-            method: "DELETE",
-            headers: {
-                "X-CSRF-Token": token,
-                "Content-Type": "application/json"
-            }
-        })
-        .then((resp) => {
-            if (resp.ok) {
-                return resp.json();
-            } else {
-                throw new Error('Network response was not ok');
-            }
-        })
-        .then(() => {this.props.history.push("/recipes")})
-        .catch((err) => {console.log(err.message)});
-    }
+    //     fetch(url, {
+    //         method: "DELETE",
+    //         headers: {
+    //             "X-CSRF-Token": token,
+    //             "Content-Type": "application/json"
+    //         }
+    //     })
+    //     .then((resp) => {
+    //         if (resp.ok) {
+    //             return resp.json();
+    //         } else {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //     })
+    //     .then(() => {this.props.history.push("/recipes")})
+    //     .catch((err) => {console.log(err.message)});
+    // }
     
     render() {
         const { recipe } = this.state;
@@ -78,9 +102,9 @@ class Recipe extends React.Component {
         }
         
         const recipeInstruction = this.addHtmlEntities(recipe.instruction);
-        
+console.log(this.props);
         return (
-            <div className="">
+            <div>
                 <div className="hero position-relative d-flex align-items-center justify-content-center">
                     <img
                         src={recipe.image}
@@ -94,6 +118,36 @@ class Recipe extends React.Component {
                 </div>
                 <div className="container py-5">
                     <div className="row">
+                        <div className="col-sm-12 col-lg-2">
+                            <button
+                                type="button"
+                                className="btn btn-info mb-2"
+                                onClick={
+                                    this.showCommentForm.bind(null, true)
+                                }
+                                role="button"
+                            >
+                                Report Reaction
+                            </button>
+                            {this.state.showCommentForm &&
+                                <button
+                                    type="button"
+                                    className="btn btn-warning mb-2 ml-2"
+                                    onClick={
+                                        this.showCommentForm.bind(null, false)
+                                    }
+                                    role="button"
+                                >
+                                    Hide
+                                </button>
+                            }
+                        </div>
+                        {this.state.showCommentForm && <NewComment />}
+                        {this.state.showCommentRefusal && 
+                            <div className="col-sm-12 col-lg-3">
+                                You must be logged in to report a reaction
+                            </div>
+                        }
                         <div className="col-sm-12 col-lg-3">
                             <ul className="list-group">
                                 <h5 className="mb-2">Ingredients</h5>
@@ -106,18 +160,13 @@ class Recipe extends React.Component {
                                 dangerouslySetInnerHTML={{__html: `${recipeInstruction}`}}
                             />
                         </div>
-                        <div className="col-sm-12 col-lg-2">
-                            <button type="button" className="btn btn-danger" onClick={this.deleteRecipe}>
-                                Delete Recipe
-                            </button>
-                        </div>
                     </div>
                     <Link to="/recipes" className="btn btn-link">
                         Back to recipes
                     </Link>
                 </div>
             </div>
-        )
+        );
     }
 }
 
