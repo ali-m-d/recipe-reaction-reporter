@@ -6,7 +6,8 @@ class NewComment extends React.Component {
         super(props);
         
         this.state = {
-            content: ""
+            content: "",
+            user_id: JSON.parse(localStorage.getItem("user")).id
         };
         
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,20 +23,24 @@ class NewComment extends React.Component {
     handleSubmit(event) {
         
         const {
-            username,
-            password
+            content,
+            user_id
         } = this.state;
         
-        axios.post(
-            "api/v1/sessions", {
-            user: {
-                username: username,
-                password: password
-            }
-        },
-        {
-            withCredentials: true
-        })
+        const commentsController = axios.create({
+            baseURL: '/'
+        });
+        
+        commentsController.post(
+            `api/v1/recipes/${this.props.recipe_id}/comments`, {
+                comment: {
+                    content: content,
+                    user_id: user_id
+                }
+            },
+            {
+                withCredentials: true
+            })
         .then(res => {
             if (res.data.logged_in) {
                 this.props.handleSuccessfulAuth(res.data); 
@@ -57,20 +62,11 @@ class NewComment extends React.Component {
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <input
-                                    type="username"
-                                    name="username"
-                                    placeholder="username"
+                                    type="content"
+                                    name="content"
+                                    placeholder="Your reaction to this recipe"
                                     className="form-control mb-3"
-                                    value={this.state.username}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="password confirmation"
-                                    className="form-control mb-1"
-                                    value={this.state.password}
+                                    value={this.state.content}
                                     onChange={this.handleChange}
                                     required
                                 />
@@ -78,7 +74,7 @@ class NewComment extends React.Component {
                                     type="submit"
                                     className="btn btn-info mt-3"
                                 >
-                                    Login
+                                    Submit
                                 </button>
                             </div>
                         </form>

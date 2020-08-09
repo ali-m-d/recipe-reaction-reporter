@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import  NewComment  from '../components/NewComment';
+import NewComment  from '../components/NewComment';
+import Comments from '../components/Comments';
 
 class Recipe extends React.Component {
     constructor(props) {
@@ -11,14 +12,28 @@ class Recipe extends React.Component {
             showCommentForm: false, 
             showCommentRefusal: false
         };
+        const {
+            match: {
+                params: {id}
+            }
+        } = this.props;
+        this.id = id;
         this.addHtmlEntities = this.addHtmlEntities.bind(this);
         // this.deleteRecipe = this.deleteRecipe.bind(this);
+    }
+    
+    showComments = (flag) => {
+        this.setState({
+            showComments: flag,
+            showCommentForm: false
+        });
     }
     
     showCommentForm = (flag) => {
         if (this.state.loggedInStatus === "LOGGED_IN") {
             this.setState({
-                showCommentForm: flag
+                showCommentForm: flag,
+                showComments: false
             });    
         }
         this.showCommentRefusal(flag);
@@ -33,24 +48,17 @@ class Recipe extends React.Component {
     }
     
     componentDidMount() {
-        const {
-            match: {
-                params: {id}
-            }
-        } = this.props;
-        
-        
-        const url = `/api/v1/show/${id}`;
+        const url = `/api/v1/recipes/${this.id}`;
         
         fetch(url)
-        .then((resp) => {
-            if (resp.ok) {
-                return resp.json();
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
             } else {
                 throw new Error('Network response was not ok');
             }
         })
-        .then((resp) => {this.setState({recipe: resp})})
+        .then((res) => {this.setState({recipe: res})})
         .catch(() => {this.props.history.push('/recipes')});
     }
     
@@ -102,7 +110,6 @@ class Recipe extends React.Component {
         }
         
         const recipeInstruction = this.addHtmlEntities(recipe.instruction);
-console.log(this.props);
         return (
             <div>
                 <div className="hero position-relative d-flex align-items-center justify-content-center">
@@ -118,31 +125,60 @@ console.log(this.props);
                 </div>
                 <div className="container py-5">
                     <div className="row">
-                        <div className="col-sm-12 col-lg-2">
-                            <button
-                                type="button"
-                                className="btn btn-info mb-2"
-                                onClick={
-                                    this.showCommentForm.bind(null, true)
-                                }
-                                role="button"
-                            >
-                                Report Reaction
-                            </button>
+                        <div className="col-6">
+                            {this.state.showComments ||
+                                <button
+                                    type="button"
+                                    className="btn btn-info mb-2"
+                                    onClick={
+                                        this.showComments.bind(null, true)
+                                    }
+                                    role="button"
+                                >
+                                    View Reactions
+                                </button>
+                            }
+                            {this.state.showComments &&
+                                <button
+                                    type="button"
+                                    className="btn btn-info mb-2"
+                                    onClick={
+                                        this.showComments.bind(null, false)
+                                    }
+                                    role="button"
+                                >
+                                    Hide Reactions
+                                </button>
+                            }
+                        </div>
+                        <div className="col-6">
+                            {this.state.showCommentForm ||
+                                <button
+                                    type="button"
+                                    className="btn btn-info mb-2"
+                                    onClick={
+                                        this.showCommentForm.bind(null, true)
+                                    }
+                                    role="button"
+                                >
+                                    Report Reaction
+                                </button>
+                            }
                             {this.state.showCommentForm &&
                                 <button
                                     type="button"
-                                    className="btn btn-warning mb-2 ml-2"
+                                    className="btn btn-info mb-2"
                                     onClick={
                                         this.showCommentForm.bind(null, false)
                                     }
                                     role="button"
                                 >
-                                    Hide
+                                    Hide Form
                                 </button>
                             }
                         </div>
-                        {this.state.showCommentForm && <NewComment />}
+                        {this.state.showComments && <Comments recipe_id={this.id} />}
+                        {this.state.showCommentForm && <NewComment recipe_id={this.id} />}
                         {this.state.showCommentRefusal && 
                             <div className="col-sm-12 col-lg-3">
                                 You must be logged in to report a reaction

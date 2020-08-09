@@ -89,7 +89,7 @@ class App extends React.Component {
                             )}
                         />
                         <Route exact 
-                            path={"/recipe/:id"} 
+                            path={"/recipes/:id"} 
                             render={props => (
                                 <Recipe {...props} loggedInStatus={this.state.loggedInStatus} />
                             )}

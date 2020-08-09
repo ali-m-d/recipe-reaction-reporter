@@ -3,9 +3,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'recipes/index'
       post 'recipes/create'
-      get '/show/:id', to: 'recipes#show'
+      post 'recipes/:id/comments', to: 'comments#create'
+      get 'recipes/:id', to: 'recipes#show'
+      get 'recipes/:id/comments', to: 'comments#index'
       delete '/destroy/:id', to: 'recipes#destroy'
-      # get 'recipes/destroy'
       resources :sessions, only: [:create]
       resources :registrations, only: [:create]
       delete :logout, to: 'sessions#logged_out'

@@ -28,7 +28,6 @@ class Recipes extends React.Component {
         const { recipes } = this.state;
         const allRecipes = recipes.map((recipe, index) => (
             <div key={index} className="col-md-6 col-lg-4">
-            {this.props.loggedInStatus}
                 <div className="card mb-4">
                     <img
                         src={recipe.image}
@@ -37,7 +36,7 @@ class Recipes extends React.Component {
                     />
                     <div className="card-body">
                         <h5 className="card-title">{recipe.name}</h5>
-                        <Link to={`/recipe/${recipe.id}`} className="btn btn-info">
+                        <Link to={`/recipes/${recipe.id}`} className="btn btn-info">
                             View Recipe
                         </Link>
                     </div>
