@@ -35,7 +35,6 @@ class Home extends React.Component {
     render() {
         return(
             <div>
-            <p>Status: {this.props.loggedInStatus}</p>
             <button className="btn btn-secondary" onClick={() => this.handleLogoutClick()}>Logout</button>
             <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
             <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />

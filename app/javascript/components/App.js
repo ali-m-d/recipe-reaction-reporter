@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import axios from 'axios';
 import Home from '../components/Home';
 import Recipes from '../components/Recipes';
@@ -7,6 +8,7 @@ import Recipe from '../components/Recipe';
 import NewRecipe from '../components/NewRecipe';
 import Dashboard from '../components/Dashboard';
 import Registration from '../components/Registration';
+import Header from '../components/Header';
 
 class App extends React.Component {
     constructor(props) {
@@ -69,7 +71,11 @@ class App extends React.Component {
     render() {
         return(
             <div className="app">
+                
                 <Router>
+                <Header loggedInStatus={this.state.loggedInStatus}
+                handleLogin={this.handleLogin} 
+                                    handleLogout={this.handleLogout} />
                     <Switch>
                         <Route exact 
                             path={"/"} 
@@ -91,7 +97,10 @@ class App extends React.Component {
                         <Route exact 
                             path={"/recipes/:id"} 
                             render={props => (
-                                <Recipe {...props} loggedInStatus={this.state.loggedInStatus} />
+                                <Recipe {...props} 
+                                handleLogin={this.handleLogin} 
+                                handleLogout={this.handleLogout}
+                                loggedInStatus={this.state.loggedInStatus} />
                             )}
                         />
                         <Route path="/recipe" exact component={ NewRecipe } />

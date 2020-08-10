@@ -54,17 +54,6 @@ class Recipes extends React.Component {
         
         return (
             <React.Fragment>
-                <section className="jumbotron jumbotron-fluid text-center bg-secondary-color">
-                    <div className="container py-5">
-                        <h1 className="display-4">
-                            Recipes for every occasion
-                        </h1>
-                        <p className="lead text-mutes">
-                            We've pulled together our most popular recipes, our latest additions, and our editor's picks,
-                            so there's sure to be something tempting for you to try
-                        </p>
-                    </div>
-                </section>
                 <div className="py-5">
                     <main className="container">
                         <div className="text-right mb-3">

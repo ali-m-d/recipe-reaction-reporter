@@ -3,6 +3,9 @@
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.10.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -18,7 +21,10 @@
     "react": "^16.13.1",
     "react-activestorage-provider": "^0.8.0",
     "react-dom": "^16.13.1",
+    "react-popper": "^2.2.3",
     "react-router-dom": "^5.2.0",
+    "react-transition-group": "^4.4.1",
+    "reactstrap": "^8.5.1",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
