@@ -35,9 +35,7 @@ class Home extends React.Component {
     render() {
         return(
             <div>
-            <button className="btn btn-secondary" onClick={() => this.handleLogoutClick()}>Logout</button>
             <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
-            <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
             <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
                 <div className="jumbotron jumbotron-fluid bg-secondary-color">
                     <div className="container">

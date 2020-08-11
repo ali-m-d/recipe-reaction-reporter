@@ -7,7 +7,7 @@ class NewComment extends React.Component {
         
         this.state = {
             content: "",
-            user_id: JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")).id : "NOT_LOGGED_IN"
+            user_id: JSON.parse(localStorage.getItem("user")).id
         };
         
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,11 +42,11 @@ class NewComment extends React.Component {
                 withCredentials: true
             })
         .then(res => {
-            if (res.data.logged_in) {
-                this.props.handleSuccessfulAuth(res.data); 
-                console.log("calling handleSuccessfulAuth()");
+            if (res.data.comment) {
+                this.props.handleCommentSubmission(res.data); 
             }
-            console.log(res);
+            this.props.handleCommentSubmission(res.data);
+            console.log(res.data);
         })
         .catch(err => {
             console.log(err);
@@ -56,31 +56,25 @@ class NewComment extends React.Component {
     
     render() {
         return(
-            <div className="container">
-                <div className="row">
-                    <div className="col-sm-12 col-lg-6 offset-lg-3">
-                        <form onSubmit={this.handleSubmit}>
-                            <div className="form-group">
-                                <input
-                                    type="content"
-                                    name="content"
-                                    placeholder="Your reaction to this recipe"
-                                    className="form-control mb-3"
-                                    value={this.state.content}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-                                <button
-                                    type="submit"
-                                    className="btn btn-info mt-3"
-                                >
-                                    Submit
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+            <form onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                    <textarea
+                        name="content"
+                        placeholder="Your reaction to this recipe"
+                        className="form-control mb-2"
+                        rows="4"
+                        value={this.state.content}
+                        onChange={this.handleChange}
+                        required
+                    />
+                    <button
+                        type="submit"
+                        className="btn btn-info mt-3"
+                    >
+                        Submit
+                    </button>
                 </div>
-            </div>
+            </form>
         );
     }
 }

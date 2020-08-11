@@ -46,9 +46,11 @@ class Registration extends React.Component {
             if (res.data.logged_in) {
                 this.props.handleSuccessfulAuth(res.data); 
                 this.props.handleLogin();
-                console.log("calling handleSuccessfulAuth()");
+            } else if (!res.data.logged_in) {
+                this.setState({
+                    loginErrors: "Could not find a user matching those credentials"
+                });
             }
-            console.log(res);
         })
         .catch(err => {
             console.log(err);
@@ -58,43 +60,43 @@ class Registration extends React.Component {
     
     render() {
         return(
-            <div className="container mt-5">
-                <div className="row">
-                    <div className="col-sm-12 col-lg-6 offset-lg-3">
-                        <h1 className="font-weight-normal mb-5">
-                            Login
-                        </h1>
-                        <form onSubmit={this.handleSubmit}>
-                            <div className="form-group">
-                                <input
-                                    type="username"
-                                    name="username"
-                                    placeholder="username"
-                                    className="form-control mb-3"
-                                    value={this.state.username}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="password confirmation"
-                                    className="form-control mb-1"
-                                    value={this.state.password}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-                                <button
-                                    type="submit"
-                                    className="btn btn-info mt-3"
-                                >
-                                    Login
-                                </button>
-                            </div>
-                        </form>
+            <form onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                    <div>
+                        {this.state.loginErrors}
                     </div>
+                    <div className="d-flex flex-column flex-md-row mb-2">
+                        <label for="username" className="mb-0 d-flex flex-row align-items-center label">Username</label>
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="username"
+                            className="form-control mb-0"
+                            value={this.state.username}
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="d-flex flex-column flex-md-row">
+                        <label for="password" className="mb-0 d-flex flex-row align-items-center label">Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="password confirmation"
+                            className="form-control mb-1"
+                            value={this.state.password}
+                            onChange={this.handleChange}
+                            required
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="btn btn-info mt-3"
+                    >
+                        Login
+                    </button>
                 </div>
-            </div>
+            </form>
         );
     }
 }

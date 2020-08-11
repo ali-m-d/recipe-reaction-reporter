@@ -25,23 +25,35 @@ class Recipes extends React.Component {
     }
     
     render() {
+        console.log(this.state.recipes);
         const { recipes } = this.state;
         const allRecipes = recipes.map((recipe, index) => (
-            <div key={index} className="col-md-6 col-lg-4">
-                <div className="card mb-4">
-                    <img
-                        src={recipe.image}
-                        className="card-img-top"
-                        alt={`${recipe.name} image`}
-                    />
-                    <div className="card-body">
-                        <h5 className="card-title">{recipe.name}</h5>
-                        <Link to={`/recipes/${recipe.id}`} className="btn btn-info">
-                            View Recipe
-                        </Link>
+         
+                <div key={index} className="col-md-6 col-lg-4">
+                    <div className="card mb-4">
+                        
+                        <img
+                            src={recipe.image}
+                            className="card-img-top recipe-image"
+                            alt={`${recipe.name} image`}
+                        />
+                        
+                        <div className="card-body">
+                            <h5 className="card-title">{recipe.name}</h5>
+                            <Link 
+                                to={{
+                                    pathname: `/recipes/${recipe.id}`,
+                                    state: {
+                                        recipe: recipe
+                                    }
+                                }} 
+                                className="btn btn-info">
+                                View Recipe
+                            </Link>
+                        </div>
                     </div>
                 </div>
-            </div>
+          
         ));
         
         const noRecipe = (
@@ -64,9 +76,6 @@ class Recipes extends React.Component {
                         <div className="row">
                             {recipes.length > 0 ? allRecipes : noRecipe}
                         </div>
-                        <Link to='/' className="btn btn-link">
-                            Home
-                        </Link>
                     </main>
                 </div>
             </React.Fragment>

@@ -4,25 +4,17 @@ class Comments extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            comments: []
+            comments: this.props.comments
         };
     }
     
-    componentDidMount() {
-        const url = `/api/v1/recipes/${this.props.recipe_id}/comments`;
-        
-        fetch(url)
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw new Error('Network response was not ok');
-            }
-        })
-        .then((res) => {this.setState({comments: res})})
-        .catch(() => {this.props.history.push('/recipes')});
+    componentDidUpdate(prevProps) {
+        if (this.props.comments !== prevProps.comments) {
+            this.setState({
+                comments: this.props.comments
+            });
+        }
     }
-    
     render() {
         const { comments } = this.state;
         const allComments = comments.map((comment, index) => (
@@ -39,7 +31,7 @@ class Comments extends React.Component {
                     </div>
                 </div>
             </div>   
-        )
+        );
     }
 }
 

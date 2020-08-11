@@ -2,10 +2,7 @@
  *= require_tree .
  *= require_self
  */
- .app {
-     background-color: #a9c9ff;
-     background-image: linear-gradient(180deg, #a9c9ff 0%, #ffbbec 100%);
- }
+ 
 .title {
     font-size: 2rem;
     line-height: 1em;
@@ -37,9 +34,10 @@
     background-color: #ff3cac;
     background-image: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
 }
-.custom-btn {
-    background-color: white;
+.label {
+    width: 6rem;
 }
+
 .primary-color {
     background-color: #FFFFFF;
 }
@@ -52,28 +50,28 @@
 .jumbotron {
     background-color: #a0aec0 !important;
 }
-.custom-button {
-    background-color: #293241;
-    color: #FFF;
-    border: none;
-}
+
 .hero {
     width: 100vw;
-    height: 50vh;
+    height: 40vh;
 }
 .hero img {
+    
     object-fit: cover;
-    object-position: top;
+    object-position: 50% 50%;
     height: 100%;
     width: 100%;
 }
 .overlay {
     height: 100%;
     width: 100%;
-    opacity: 0.4;
+    opacity: 0.6;
 }
 .styled-btn {
-    box-shadow: 0 2px 3px rgba(#444444, 1);
+    box-shadow: 2px 2px 2px rgba(#444444, 1);
+}
+.option-btn {
+    box-shadow: 2px 2px 2px rgba(#444444, 0.8);
 }
 .page-enter {
     opacity: 0.01;

@@ -6,7 +6,6 @@ import Home from '../components/Home';
 import Recipes from '../components/Recipes';
 import Recipe from '../components/Recipe';
 import NewRecipe from '../components/NewRecipe';
-import Dashboard from '../components/Dashboard';
 import Registration from '../components/Registration';
 import Header from '../components/Header';
 
@@ -44,7 +43,6 @@ class App extends React.Component {
                     user: {}
                 });
             }
-            console.log(this.state.loggedInStatus);
         })
         .catch(err => {
             console.log(err);
@@ -56,6 +54,7 @@ class App extends React.Component {
     }
     
     handleLogin(data) {
+        console.log("inside handleLogin of app component")
         this.setState({
             loggedInStatus: "LOGGED_IN",
             user: data.user
@@ -103,19 +102,11 @@ class App extends React.Component {
                             render={props => (
                                 <Recipe {...props} 
                                     handleLogin={this.handleLogin} 
-                                    handleLogout={this.handleLogout}
                                     loggedInStatus={this.state.loggedInStatus}
-                                    updateLoggedInStatus={this.updateLoggedInStatus}
                                 />
                             )}
                         />
                         <Route path="/recipe" exact component={ NewRecipe } />
-                        <Route exact 
-                            path={"/dashboard"} 
-                            render={props => (
-                                <Dashboard {...props} loggedInStatus={this.state.loggedInStatus} />
-                            )} 
-                        />
                         <Route path="/registration" exact component={ Registration } />
                     </Switch>
                 </Router>

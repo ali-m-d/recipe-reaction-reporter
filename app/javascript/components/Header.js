@@ -1,6 +1,6 @@
 import React from 'react';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron,
-         Modal, ModalHeader, ModalBody, Form, FormGroup, Input, Button, Label } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem,
+         Modal, ModalHeader, ModalBody, Button} from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUtensils, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
@@ -16,20 +16,23 @@ class Header extends React.Component {
             isModalOpen: false,
             loggedInStatus: this.props.loggedInStatus
         };
-        if (JSON.parse(localStorage.getItem("user"))) {
-            this.state = {
-                loggedInStatus: "LOGGED_IN"
-            };
-        }
        
         this.toggleNav = this.toggleNav.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
         this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
         this.handleLogoutClick = this.handleLogoutClick.bind(this);
     }
     
+    componentDidUpdate(prevProps) {
+        if (this.props.loggedInStatus !== prevProps.loggedInStatus) {
+            this.setState({
+                loggedInStatus: this.props.loggedInStatus
+            });
+        }
+    }
+    
     handleSuccessfulAuth(data) {
+        this.toggleModal();
         this.props.handleLogin(data);
         this.setState({
             loggedInStatus: "LOGGED_IN"
@@ -68,18 +71,14 @@ class Header extends React.Component {
             isModalOpen: !this.state.isModalOpen 
         });
     }
-    handleLogin() {
-        this.toggleModal();
-    }
     
     render() {
         return(
             <React.Fragment>
-                <Navbar dark className="custom-nav" expand="md" sticky="top">
+                <Navbar dark className="custom-nav" expand="md">
                   <div className="container">
                     <NavbarToggler className="ml-auto" onClick={this.toggleNav} />
                     <NavbarBrand className="mr-auto d-flex flex-row" href="/">
-                    {this.state.loggedInStatus}
                         <img src={logo} width="70" height="70" alt="logo" />
                         <div className="ml-2 align-self-center font-weight-light title"><span>R</span>ecipe<span>R</span>esponse<span>R</span>eporter</div>
                     </NavbarBrand>
@@ -91,7 +90,7 @@ class Header extends React.Component {
                                 </NavLink>
                             </NavItem>
                             <NavItem className="mt-2">
-                                <NavLink className="nav-link d-flex flex-column flex-lg-row align-items-center" to="/recipes">
+                                <NavLink className="nav-link d-flex flex-column flex-lg-row align-items-center" exact to="/recipes">
                                     <FontAwesomeIcon icon={faUtensils} /><div className="ml-lg-1">Recipes</div>
                                 </NavLink>
                             </NavItem>
@@ -102,12 +101,12 @@ class Header extends React.Component {
                             </NavItem>
                             <NavItem className="mt-2 ml-2">
                                 {this.state.loggedInStatus === "NOT_LOGGED_IN" &&
-                                    <Button color="info" className="custom-btn d-flex flex-column flex-lg-row align-items-center" onClick={this.toggleModal}>
+                                    <Button color="info" className="styled-btn d-flex flex-column flex-lg-row align-items-center" onClick={this.toggleModal}>
                                             Login
                                     </Button>
                                 }
                                 {this.state.loggedInStatus === "LOGGED_IN" &&
-                                    <Button color="info" className="custom-btn d-flex flex-column flex-lg-row align-items-center" onClick={this.handleLogoutClick}>
+                                    <Button color="info" className="styled-btn d-flex flex-column flex-lg-row align-items-center" onClick={this.handleLogoutClick}>
                                             Logout
                                     </Button>
                                 }
@@ -120,7 +119,7 @@ class Header extends React.Component {
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
                     <ModalBody>
-                        <Login handleSuccessfulAuth={this.handleSuccessfulAuth} handleLogin={this.handleLogin} />
+                        <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
                     </ModalBody>
                 </Modal>
             </React.Fragment>

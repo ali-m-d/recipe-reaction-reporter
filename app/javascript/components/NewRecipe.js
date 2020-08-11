@@ -79,7 +79,7 @@ class NewRecipe extends React.Component {
                 throw new Error('Network response was not ok');
             }
         })
-        .then((resp) => {this.props.history.push(`/recipe/${resp.id}`)})
+        .then((resp) => {this.props.history.push(`/recipes/${resp.id}`)})
         .catch((err) => {console.log(err.message)});
     }
     
@@ -153,9 +153,6 @@ class NewRecipe extends React.Component {
                             <button type="submit" className="btn btn-info mt-3">
                                 Create Recipe
                             </button>
-                            <Link to="/recipes" className="btn btn-link mt-3">
-                                Back to recipes
-                            </Link>
                         </form>
                     </div>
                 </div>
