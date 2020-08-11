@@ -8,9 +8,9 @@ class Recipe extends React.Component {
         super(props);
         this.state = {
             recipe: {ingredients: ""},
-            loggedInStatus: JSON.parse(localStorage.getItem("user")) && "LOGGED_IN",
-            showCommentForm: false, 
-            showCommentRefusal: false
+            loggedInStatus: JSON.parse(localStorage.getItem("user")) ? "LOGGED_IN" : "NOT_LOGGED_IN",
+            showCommentForm: false,
+            showComments: false
         };
         const {
             match: {
@@ -25,31 +25,21 @@ class Recipe extends React.Component {
     showComments = (flag) => {
         this.setState({
             showComments: flag,
-            showCommentForm: false
+            showCommentForm: false,
         });
     }
     
     showCommentForm = (flag) => {
-        if (this.state.loggedInStatus === "LOGGED_IN") {
-            this.setState({
-                showCommentForm: flag,
-                showComments: false
-            });    
-        }
-        this.showCommentRefusal(flag);
-    }
-    
-    showCommentRefusal = (flag) => {
-        if (this.state.loggedInStatus !== "LOGGED_IN") {
-            this.setState({
-                showCommentRefusal: flag 
-            });
-        }
+        this.setState({
+            showCommentForm: flag,
+            showComments: false
+        });    
     }
     
     componentDidMount() {
         const url = `/api/v1/recipes/${this.id}`;
-        
+        console.log("props updated");
+        console.log(this.props.loggedinStatus);
         fetch(url)
         .then((res) => {
             if (res.ok) {
@@ -110,6 +100,12 @@ class Recipe extends React.Component {
         }
         
         const recipeInstruction = this.addHtmlEntities(recipe.instruction);
+        let conditionallyShowForm;
+        if (JSON.parse(localStorage.getItem("user"))) {
+            conditionallyShowForm = <NewComment recipe_id={this.id} />;
+        } else {
+            conditionallyShowForm = <div>You must be logged in</div>;
+        }
         return (
             <div>
                 <div className="hero position-relative d-flex align-items-center justify-content-center">
@@ -177,13 +173,9 @@ class Recipe extends React.Component {
                                 </button>
                             }
                         </div>
+                       
+                        {this.state.showCommentForm && conditionallyShowForm}
                         {this.state.showComments && <Comments recipe_id={this.id} />}
-                        {this.state.showCommentForm && <NewComment recipe_id={this.id} />}
-                        {this.state.showCommentRefusal && 
-                            <div className="col-sm-12 col-lg-3">
-                                You must be logged in to report a reaction
-                            </div>
-                        }
                         <div className="col-sm-12 col-lg-3">
                             <ul className="list-group">
                                 <h5 className="mb-2">Ingredients</h5>

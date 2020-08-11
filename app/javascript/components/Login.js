@@ -28,7 +28,11 @@ class Registration extends React.Component {
             password
         } = this.state;
         
-        axios.post(
+        const sessionsController = axios.create({
+            baseURL: '/'
+        });
+        
+        sessionsController.post(
             "api/v1/sessions", {
             user: {
                 username: username,
@@ -41,6 +45,7 @@ class Registration extends React.Component {
         .then(res => {
             if (res.data.logged_in) {
                 this.props.handleSuccessfulAuth(res.data); 
+                this.props.handleLogin();
                 console.log("calling handleSuccessfulAuth()");
             }
             console.log(res);

@@ -24,7 +24,10 @@ class App extends React.Component {
     }
     
     checkLoginStatus() {
-        axios.get(
+        const sessionsController = axios.create({
+            baseURL: '/'
+        });
+        sessionsController.get(
             'api/v1/logged_in', 
             { 
                 withCredentials: true 
@@ -41,7 +44,7 @@ class App extends React.Component {
                     user: {}
                 });
             }
-            console.log(res);
+            console.log(this.state.loggedInStatus);
         })
         .catch(err => {
             console.log(err);
@@ -73,9 +76,11 @@ class App extends React.Component {
             <div className="app">
                 
                 <Router>
-                <Header loggedInStatus={this.state.loggedInStatus}
-                handleLogin={this.handleLogin} 
-                                    handleLogout={this.handleLogout} />
+                    <Header 
+                        loggedInStatus={this.state.loggedInStatus}
+                        handleLogin={this.handleLogin} 
+                        handleLogout={this.handleLogout} 
+                    />
                     <Switch>
                         <Route exact 
                             path={"/"} 
@@ -83,7 +88,6 @@ class App extends React.Component {
                                 <Home 
                                     {...props}
                                     handleLogin={this.handleLogin} 
-                                    handleLogout={this.handleLogout}
                                     loggedInStatus={this.state.loggedInStatus} 
                                 />
                             )} 
@@ -98,9 +102,11 @@ class App extends React.Component {
                             path={"/recipes/:id"} 
                             render={props => (
                                 <Recipe {...props} 
-                                handleLogin={this.handleLogin} 
-                                handleLogout={this.handleLogout}
-                                loggedInStatus={this.state.loggedInStatus} />
+                                    handleLogin={this.handleLogin} 
+                                    handleLogout={this.handleLogout}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                    updateLoggedInStatus={this.updateLoggedInStatus}
+                                />
                             )}
                         />
                         <Route path="/recipe" exact component={ NewRecipe } />

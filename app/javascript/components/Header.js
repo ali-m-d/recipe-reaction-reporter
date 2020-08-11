@@ -4,7 +4,9 @@ import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron,
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUtensils, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import logo from '../../assets/images/chef.svg';
+import Login from '../components/Login';
 
 class Header extends React.Component {
     constructor(props) {
@@ -12,16 +14,48 @@ class Header extends React.Component {
         this.state = {
             isNavOpen: false,
             isModalOpen: false,
-            loggedInStatus: "NOT_LOGGED_IN"
+            loggedInStatus: this.props.loggedInStatus
         };
-        if (JSON.parse(localStorage.getItem("user")) || this.props.loggedInstatus === "LOGGED_IN") {
+        if (JSON.parse(localStorage.getItem("user"))) {
             this.state = {
                 loggedInStatus: "LOGGED_IN"
             };
         }
+       
         this.toggleNav = this.toggleNav.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
+        this.handleLogoutClick = this.handleLogoutClick.bind(this);
+    }
+    
+    handleSuccessfulAuth(data) {
+        this.props.handleLogin(data);
+        this.setState({
+            loggedInStatus: "LOGGED_IN"
+        });
+    }
+    
+    handleLogoutClick() {
+        this.props.handleLogout();
+        const sessionsController = axios.create({
+            baseURL: '/'
+        });
+        sessionsController.delete(
+            'api/v1/logout',
+            {
+                withCredentials: true
+            }
+        )
+        .then(res => {
+            this.props.handleLogout();
+            this.setState({
+                loggedInStatus: "NOT_LOGGED_IN"
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
     
     toggleNav() {
@@ -34,11 +68,8 @@ class Header extends React.Component {
             isModalOpen: !this.state.isModalOpen 
         });
     }
-    handleLogin(event) {
+    handleLogin() {
         this.toggleModal();
-        alert("Username: " + this.username.value + "Password: " + this.password.value
-                + " Remember: " + this.remember.checked);
-        event.preventDefault();            
     }
     
     render() {
@@ -48,6 +79,7 @@ class Header extends React.Component {
                   <div className="container">
                     <NavbarToggler className="ml-auto" onClick={this.toggleNav} />
                     <NavbarBrand className="mr-auto d-flex flex-row" href="/">
+                    {this.state.loggedInStatus}
                         <img src={logo} width="70" height="70" alt="logo" />
                         <div className="ml-2 align-self-center font-weight-light title"><span>R</span>ecipe<span>R</span>esponse<span>R</span>eporter</div>
                     </NavbarBrand>
@@ -69,14 +101,14 @@ class Header extends React.Component {
                                 </NavLink>
                             </NavItem>
                             <NavItem className="mt-2 ml-2">
-                                {this.state.loggedInStatus === "LOGGED_IN" &&
-                                    <Button color="info" className="custom-btn d-flex flex-column flex-lg-row align-items-center" onClick={this.handleLogout}>
-                                        Logout
-                                    </Button>
-                                }
                                 {this.state.loggedInStatus === "NOT_LOGGED_IN" &&
                                     <Button color="info" className="custom-btn d-flex flex-column flex-lg-row align-items-center" onClick={this.toggleModal}>
-                                        Login
+                                            Login
+                                    </Button>
+                                }
+                                {this.state.loggedInStatus === "LOGGED_IN" &&
+                                    <Button color="info" className="custom-btn d-flex flex-column flex-lg-row align-items-center" onClick={this.handleLogoutClick}>
+                                            Logout
                                     </Button>
                                 }
                             </NavItem>
@@ -88,32 +120,7 @@ class Header extends React.Component {
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
                     <ModalBody>
-                        <Form onSubmit={this.handleLogin}>
-                            <FormGroup>
-                                <Label htmlFor="username">Username</Label>
-                                <Input
-                                    type="text" id="username" name="username"
-                                    innerRef={(input) => this.username = input} 
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="password">Password</Label>
-                                <Input
-                                    type="password" id="password" name="password"
-                                    innerRef={(input) => this.password = input} 
-                                />
-                            </FormGroup>
-                            <FormGroup check>
-                                <Label check>
-                                    <Input
-                                        type="checkbox" name="remember"
-                                        innerRef={(input) => this.remember = input}
-                                    />
-                                    Remember Me
-                                </Label>
-                            </FormGroup>
-                            <Button type="submit" value="submit" color="primary">Login</Button>
-                        </Form>
+                        <Login handleSuccessfulAuth={this.handleSuccessfulAuth} handleLogin={this.handleLogin} />
                     </ModalBody>
                 </Modal>
             </React.Fragment>

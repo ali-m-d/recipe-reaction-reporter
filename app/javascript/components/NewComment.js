@@ -7,7 +7,7 @@ class NewComment extends React.Component {
         
         this.state = {
             content: "",
-            user_id: JSON.parse(localStorage.getItem("user")).id
+            user_id: JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")).id : "NOT_LOGGED_IN"
         };
         
         this.handleSubmit = this.handleSubmit.bind(this);
