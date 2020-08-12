@@ -52,9 +52,12 @@ class Registration extends React.Component {
                 });
             }
         })
-        .catch(err => {
-            console.log(err);
+        .catch(() => {
+            this.setState({
+                loginErrors: "Could not find a user matching those credentials"
+            });
         });
+        
         event.preventDefault();
     }
     
@@ -62,7 +65,7 @@ class Registration extends React.Component {
         return(
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <div>
+                    <div className="mb-2">
                         {this.state.loginErrors}
                     </div>
                     <div className="d-flex flex-column flex-md-row mb-2">

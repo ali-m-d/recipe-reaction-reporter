@@ -18,19 +18,16 @@ class Comments extends React.Component {
     render() {
         const { comments } = this.state;
         const allComments = comments.map((comment, index) => (
-            <div key={index}>
-                {comment.content}
-            </div>
+            <blockquote key={index} className="blockquote mb-1 comment">
+                <p className="mb-0">{comment.content}</p>
+                <footer className="blockquote-footer">{comment.user_username}</footer>
+            </blockquote>
         ));
 
         return(
             <div className="container">
-                <div className="row">
-                    <div className="col-sm-12 col-lg-6 offset-lg-3">
-                        {allComments}
-                    </div>
-                </div>
-            </div>   
+                {allComments}
+            </div>
         );
     }
 }

@@ -3,6 +3,34 @@
  *= require_self
  */
  
+.bg-primary-color {
+    background-color: #d7f1f4;
+background-image: linear-gradient(0deg, #d7f1f4 0%, #eeddee 100%);
+}
+#homepage .bg-secondary-color {
+    background-color: #c2d9d7;
+}
+.label {
+    width: 6rem;
+}
+.greeter {
+        width: 60%;
+    }
+@media (max-width: 992px) {
+    #homepage {
+        .greeter {
+            width: 100%;
+        }
+        .home-title {
+            font-size: 5vw;
+            span {
+                font-size: 5.1vw;
+            }
+        }
+    }
+}
+
+/* ****** NAVBAR ****** */
 .title {
     font-size: 2rem;
     line-height: 1em;
@@ -10,7 +38,6 @@
         font-size: 2.1rem;
     }
 }
-
 .navbar-dark #custom-nav .nav-link.active {
     color: rgba(255,255,255,1);
     &:hover {
@@ -36,34 +63,7 @@
     background-color: #ff3cac;
     background-image: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
 }
-.label {
-    width: 6rem;
-}
-
-.bg-primary-color {
-    background-color: #d7f1f4;
-background-image: linear-gradient(0deg, #d7f1f4 0%, #eeddee 100%);
-}
-#homepage .bg-secondary-color {
-    background-color: #c2d9d7;
-}
-
-.hero {
-    width: 100vw;
-    height: 40vh;
-}
-.hero img {
-    object-fit: cover;
-    object-position: 50% 50%;
-    height: 100%;
-    width: 100%;
-}
-.overlay {
-    height: 100%;
-    width: 100%;
-    opacity: 0.6;
-}
-.styled-btn {
+ .styled-btn {
     box-shadow: 2px 2px 2px rgba(#444444, 1);
 }
 .option-btn {
@@ -89,12 +89,6 @@ background-image: linear-gradient(0deg, #d7f1f4 0%, #eeddee 100%);
             width: 100%;
         }
     }
-    h1.hero-text {
-        font-size: 5.5vw;
-    }
-    .hero {
-        height: 30vw;
-    }
 }
 @media (max-width: 400px) {
     .title {
@@ -107,6 +101,45 @@ background-image: linear-gradient(0deg, #d7f1f4 0%, #eeddee 100%);
         height: 30px;
         width: 30px;
     }
+}
+/* ****** RECIPE VIEW ****** */
+.instruction {
+    width: 65%;
+}
+.ingredients {
+    width: 35%;
+}
+.comment {
+    p {
+        font-size: .9rem;
+    }
+}
+
+/* ****** RECIPES VIEW ****** */
+.hero {
+    width: 100vw;
+    height: 40vh;
+}
+.hero img {
+    object-fit: cover;
+    object-position: 50% 50%;
+    height: 100%;
+    width: 100%;
+}
+.overlay {
+    height: 100%;
+    width: 100%;
+    opacity: 0.6;
+}
+@media (max-width: 576px) {
+    h1.hero-text {
+        font-size: 5.5vw;
+    }
+    .hero {
+        height: 30vw;
+    }
+}
+@media (max-width: 400px) {
     h1.hero-text {
         font-size: 5vw;
     }
@@ -114,14 +147,9 @@ background-image: linear-gradient(0deg, #d7f1f4 0%, #eeddee 100%);
         height: 25vw;
     }
 }
-.instruction {
-    width: 65%;
-}
-.ingredients {
-    width: 35%;
-}
 .home-title {
     span {
         font-size: 3.7rem;
     }
 }
+

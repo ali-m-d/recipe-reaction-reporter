@@ -53,56 +53,70 @@ class Registration extends React.Component {
             if (res.data.status === 'created') {
                 this.props.handleSuccessfulAuth(res.data);
                 this.toggleModal();
+            } else {
+                this.setState({
+                    registrationErrors: "Registration cannot be completed"
+                });
             }
-            console.log(res);
         })
-        .catch(err => {
-            console.log(err);
-        });
+        .catch(() => {this.props.history.push('/recipes')});
+        
         event.preventDefault();
     }
     
     render() {
         return(
             <React.Fragment>
-            <button className="btn btn-dark btn-lg mx-2 w-25" onClick={this.toggleModal}>
+            <button className="btn btn-dark mx-2" style={{width: "10rem"}} onClick={this.toggleModal}>
                 Register
             </button>
             <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal}>Register</ModalHeader>
                 <ModalBody>
                     <form onSubmit={this.handleSubmit}>
+                        <div className="mb-2">
+                            {this.state.registrationErrors}
+                        </div>
                         <div className="form-group">
-                            <input
-                                type="username"
-                                name="username"
-                                placeholder="username"
-                                className="form-control mb-3"
-                                value={this.state.username}
-                                onChange={this.handleChange}
-                                required
-                            />
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="password confirmation"
-                                className="form-control mb-1"
-                                value={this.state.password}
-                                onChange={this.handleChange}
-                                required
-                            />
-                            <input
-                                type="password"
-                                name="password_confirmation"
-                                placeholder="password"
-                                className="form-control"
-                                value={this.state.password_confirmation}
-                                onChange={this.handleChange}
-                                required
-                            />
+                            <div className="d-flex flex-column flex-md-row mb-2">
+                                <label for="username" className="mb-0 d-flex flex-row align-items-center label">Username</label>
+                                <input
+                                    type="username"
+                                    name="username"
+                                    placeholder="username"
+                                    className="form-control"
+                                    value={this.state.username}
+                                    onChange={this.handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className="d-flex flex-column flex-md-row mb-2">
+                                <label for="username" className="mb-0 d-flex flex-row align-items-center label">Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="password confirmation"
+                                    className="form-control"
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className="d-flex flex-column flex-md-row mb-2">
+                                <label for="username" className="mb-0 d-flex flex-row align-items-center label">Confirm Password</label>
+                                <input
+                                    type="password"
+                                    name="password_confirmation"
+                                    placeholder="password"
+                                    className="form-control"
+                                    value={this.state.password_confirmation}
+                                    onChange={this.handleChange}
+                                    required
+                                />
+                            </div>
                             <button
                                 type="submit"
-                                className="btn btn-info mt-3"
+                                className="btn btn-info"
                             >
                                 Register
                             </button>

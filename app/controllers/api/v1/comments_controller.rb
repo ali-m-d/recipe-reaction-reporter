@@ -9,6 +9,10 @@ class Api::V1::CommentsController < ApplicationController
   def create
       
     comment = @recipe.comments.create!(comment_params)
+    if comment.save
+      comment.user_username = User.find(comment.user_id).username
+      comment.save
+    end
       
     if comment.save
         render json: comment

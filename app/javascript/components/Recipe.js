@@ -256,12 +256,10 @@ class Recipe extends React.Component {
                         </Nav>
                     </div>
                 </Navbar>
-
-                <div className="container">
-                    <div className="py-1">
-                        {this.state.showComments && <Comments comments={this.state.comments} />}
-                    </div>
-                    
+                
+                {this.state.showComments && <Comments comments={this.state.comments} />}
+                
+                <div className="container py-1">    
                     <div className="d-none d-md-block">
                         <div className="d-flex flex-row">
                             <div className="d-flex flex-column mr-md-2 ingredients">

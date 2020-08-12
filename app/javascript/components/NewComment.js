@@ -7,7 +7,8 @@ class NewComment extends React.Component {
         
         this.state = {
             content: "",
-            user_id: JSON.parse(localStorage.getItem("user")).id
+            user_id: JSON.parse(localStorage.getItem("user")).id,
+            user_username: JSON.parse(localStorage.getItem("user")).username
         };
         
         this.handleSubmit = this.handleSubmit.bind(this);
