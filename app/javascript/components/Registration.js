@@ -78,7 +78,7 @@ class Registration extends React.Component {
                             {this.state.registrationErrors}
                         </div>
                         <div className="form-group">
-                            <div className="d-flex flex-column flex-md-row mb-2">
+                            <div className="d-flex flex-column mb-2">
                                 <label for="username" className="mb-0 d-flex flex-row align-items-center label">Username</label>
                                 <input
                                     type="username"
@@ -90,8 +90,8 @@ class Registration extends React.Component {
                                     required
                                 />
                             </div>
-                            <div className="d-flex flex-column flex-md-row mb-2">
-                                <label for="username" className="mb-0 d-flex flex-row align-items-center label">Password</label>
+                            <div className="d-flex flex-column mb-2">
+                                <label for="username" className="mb-0 d-flex flex-row align-items-center">Password</label>
                                 <input
                                     type="password"
                                     name="password"
@@ -102,8 +102,8 @@ class Registration extends React.Component {
                                     required
                                 />
                             </div>
-                            <div className="d-flex flex-column flex-md-row mb-2">
-                                <label for="username" className="mb-0 d-flex flex-row align-items-center label">Confirm Password</label>
+                            <div className="d-flex flex-column mb-2">
+                                <label for="username" className="mb-0 d-flex flex-row align-items-center">Confirm Password</label>
                                 <input
                                     type="password"
                                     name="password_confirmation"
@@ -116,7 +116,7 @@ class Registration extends React.Component {
                             </div>
                             <button
                                 type="submit"
-                                className="btn btn-info"
+                                className="btn btn-info mt-2"
                             >
                                 Register
                             </button>
