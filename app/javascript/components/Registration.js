@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 class Registration extends React.Component {
     constructor(props) {
         super(props);
         
         this.state = {
+            isModalOpen: false,
             email: "",
             password: "",
             password_confirmation: "",
@@ -14,6 +15,13 @@ class Registration extends React.Component {
         
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+    }
+    
+    toggleModal() {
+        this.setState({
+            isModalOpen: !this.state.isModalOpen 
+        });
     }
     
     handleChange(event) {
@@ -43,7 +51,8 @@ class Registration extends React.Component {
         })
         .then(res => {
             if (res.data.status === 'created') {
-                this.props.handleSuccessfulAuth(res.data);  
+                this.props.handleSuccessfulAuth(res.data);
+                this.toggleModal();
             }
             console.log(res);
         })
@@ -55,52 +64,53 @@ class Registration extends React.Component {
     
     render() {
         return(
-            <div className="container mt-5">
-                <div className="row">
-                    <div className="col-sm-12 col-lg-6 offset-lg-3">
-                        <h1 className="font-weight-normal mb-5">
-                            Register
-                        </h1>
-                        <form onSubmit={this.handleSubmit}>
-                            <div className="form-group">
-                                <input
-                                    type="username"
-                                    name="username"
-                                    placeholder="username"
-                                    className="form-control mb-3"
-                                    value={this.state.username}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="password confirmation"
-                                    className="form-control mb-1"
-                                    value={this.state.password}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-                                <input
-                                    type="password"
-                                    name="password_confirmation"
-                                    placeholder="password"
-                                    className="form-control"
-                                    value={this.state.password_confirmation}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-                                <button
-                                    type="submit"
-                                    className="btn btn-info mt-3"
-                                >
-                                    Register
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <React.Fragment>
+            <button className="btn btn-dark btn-lg mx-2 w-25" onClick={this.toggleModal}>
+                Register
+            </button>
+            <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+                <ModalHeader toggle={this.toggleModal}>Register</ModalHeader>
+                <ModalBody>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <input
+                                type="username"
+                                name="username"
+                                placeholder="username"
+                                className="form-control mb-3"
+                                value={this.state.username}
+                                onChange={this.handleChange}
+                                required
+                            />
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="password confirmation"
+                                className="form-control mb-1"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                                required
+                            />
+                            <input
+                                type="password"
+                                name="password_confirmation"
+                                placeholder="password"
+                                className="form-control"
+                                value={this.state.password_confirmation}
+                                onChange={this.handleChange}
+                                required
+                            />
+                            <button
+                                type="submit"
+                                className="btn btn-info mt-3"
+                            >
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </ModalBody>
+            </Modal>
+            </React.Fragment>
         );
     }
 }

@@ -99,7 +99,7 @@ class Header extends React.Component {
                                     <FontAwesomeIcon icon={faPencilAlt} /><div className="ml-lg-1">Add</div>
                                 </NavLink>
                             </NavItem>
-                            <NavItem className="mb-3 mb-md-0">
+                            <NavItem className="mb-3 mb-md-0 ml-md-2">
                                 {this.state.loggedInStatus === "NOT_LOGGED_IN" &&
                                     <Button color="info" className="styled-btn d-flex flex-column flex-lg-row align-items-center" onClick={this.toggleModal}>
                                             Login
