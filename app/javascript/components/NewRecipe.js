@@ -139,6 +139,7 @@ class NewRecipe extends React.Component {
                                     id="recipeImage"
                                     accept="image/*"
                                     onChange={this.onImageChange}
+                                    required
                                 />
                             </div>
                             <label htmlFor="recipeInstruction">Preparation Instructions</label>
@@ -151,7 +152,7 @@ class NewRecipe extends React.Component {
                                 onChange={this.onChange}
                             />
                             <button type="submit" className="btn btn-info mt-3">
-                                Create Recipe
+                                Add Recipe
                             </button>
                         </form>
                     </div>

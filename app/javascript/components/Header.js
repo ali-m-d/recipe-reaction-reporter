@@ -75,31 +75,31 @@ class Header extends React.Component {
     render() {
         return(
             <React.Fragment>
-                <Navbar dark className="custom-nav" expand="md">
-                  <div className="container">
-                    <NavbarToggler className="ml-auto" onClick={this.toggleNav} />
+                <Navbar dark className="custom-nav py-0" expand="md">
+                  <div className="container ml-auto">
                     <NavbarBrand className="mr-auto d-flex flex-row" href="/">
                         <img src={logo} width="70" height="70" alt="logo" />
                         <div className="ml-2 align-self-center font-weight-light title"><span>R</span>ecipe<span>R</span>esponse<span>R</span>eporter</div>
                     </NavbarBrand>
+                    <NavbarToggler onClick={this.toggleNav} />
                     <Collapse isOpen={this.state.isNavOpen} navbar>    
-                        <Nav navbar className="ml-auto" id="custom-nav">
-                            <NavItem className="mt-2">
+                        <Nav navbar className="d-flex flex-column flex-md-row justify-content-between align-items-center ml-auto" id="custom-nav">
+                            <NavItem className="mb-1 mb-md-0">
                                 <NavLink className="nav-link d-flex flex-column flex-lg-row align-items-center" id="home" exact to="/">
                                     <FontAwesomeIcon icon={faHome} /><div className="ml-lg-1">Home</div>
                                 </NavLink>
                             </NavItem>
-                            <NavItem className="mt-2">
+                            <NavItem className="mb-1 mb-md-0">
                                 <NavLink className="nav-link d-flex flex-column flex-lg-row align-items-center" exact to="/recipes">
                                     <FontAwesomeIcon icon={faUtensils} /><div className="ml-lg-1">Recipes</div>
                                 </NavLink>
                             </NavItem>
-                            <NavItem className="mt-2">
+                            <NavItem className="mb-1 mb-md-0">
                                 <NavLink className="nav-link d-flex flex-column flex-lg-row align-items-center" to="/recipe">
                                     <FontAwesomeIcon icon={faPencilAlt} /><div className="ml-lg-1">Add</div>
                                 </NavLink>
                             </NavItem>
-                            <NavItem className="mt-2 ml-2">
+                            <NavItem className="mb-3 mb-md-0">
                                 {this.state.loggedInStatus === "NOT_LOGGED_IN" &&
                                     <Button color="info" className="styled-btn d-flex flex-column flex-lg-row align-items-center" onClick={this.toggleModal}>
                                             Login

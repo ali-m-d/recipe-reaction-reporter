@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, Spinner } from 'reactstrap';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem } from 'reactstrap';
+import { Navbar, Nav, NavItem } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments, faComment } from '@fortawesome/free-solid-svg-icons';
 import NewComment  from '../components/NewComment';
@@ -16,7 +15,10 @@ class Recipe extends React.Component {
             loaded: false,
             isCommentModalOpen: false,
             isLoginModalOpen: false,
-            recipe: {ingredients: ""},
+            recipe: {
+                ingredients: "",
+                instruction: "",
+            },
             loggedInStatus: this.props.loggedInStatus,
             showCommentForm: false,
             showComments: false,
@@ -168,24 +170,31 @@ class Recipe extends React.Component {
     render() {
         const { recipe } = this.state;
         let ingredientList = [];
+        let ingredientListLoading;
+        let instructionLoading;
+        
+        if (this.state.recipe.ingredients === "") {
+            ingredientListLoading = <Spinner animation="border" role="status" /> 
+        }
+        
+        if (this.state.recipe.instruction === "") {
+            instructionLoading = <Spinner animation="border" role="status" /> 
+        }
         
         if (recipe.ingredients.length > 0) {
             ingredientList = recipe.ingredients
             .map((ingredient, index) => (
-                <li key={index} className="list-group-item">
+                <li key={index} className="list-group-item py-1 py-md-2">
                     {ingredient}
                 </li>
             ));
         }
         
         const recipeInstruction = this.addHtmlEntities(recipe.instruction);
-        console.log({__html: `${recipeInstruction}`});
-        const recipeUrl = `/recipes/${this.recipe_id}`;
-        
         
         return (
             <div>
-                <div className="hero position-relative d-flex align-items-center justify-content-center">
+                <div id="custom-hero" className="hero position-relative d-flex align-items-center justify-content-center">
                     <img
                         src={recipe.image}
                         alt={`${recipe.name} image`}
@@ -196,83 +205,105 @@ class Recipe extends React.Component {
                     {!this.state.loaded ? <Spinner animation="border" role="status" /> :
                     <React.Fragment>
                         <div className="overlay bg-dark position-absolute" />
-                        <h1 className="display-4 position-relative text-white">
-                            {recipe.name}
-                        </h1>
+                        <div className="container text-center">
+                            <h1 className="display-4 position-relative text-white hero-text">
+                                {recipe.name}
+                            </h1>
+                        </div>
                     </React.Fragment>
                     }
                 </div>
                 
-                
                 <Navbar light expand="md">
-                  <div className="container">
-                    <NavbarToggler className="ml-auto" onClick={this.toggleNav} />
-                    <Collapse isOpen={this.state.isNavOpen} navbar>    
-                        <Nav navbar className="mx-auto" id="custom-nav">
+                    <div className="container">
+                        <Nav navbar className="mx-sm-auto flex-column flex-sm-row" id="custom-menu">
                             <NavItem>
                                 {this.state.showComments ||
-                            <button
-                                type="button"
-                                className="btn btn-info mx-2 option-btn"
-                                onClick={
-                                    this.showComments.bind(null, true)
+                                    <button
+                                        type="button"
+                                        className="btn btn-info mx-sm-2 option-btn"
+                                        onClick={
+                                            this.showComments.bind(null, true)
+                                        }
+                                        role="button"
+                                    >
+                                        <FontAwesomeIcon icon={faComments} /> View Reactions
+                                    </button>
                                 }
-                                role="button"
-                            >
-                                <FontAwesomeIcon icon={faComments} /> View Reactions
-                            </button>
-                        }
-                        {this.state.showComments &&
-                            <button
-                                type="button"
-                                className="btn btn-info option-btn mx-2"
-                                onClick={
-                                    this.showComments.bind(null, false)
+                                {this.state.showComments &&
+                                    <button
+                                        type="button"
+                                        className="btn btn-info option-btn mx-sm-2"
+                                        onClick={
+                                            this.showComments.bind(null, false)
+                                        }
+                                        role="button"
+                                    >
+                                        <FontAwesomeIcon icon={faComments} /> Hide Reactions
+                                    </button>
                                 }
-                                role="button"
-                            >
-                                Hide Reactions
-                            </button>
-                        }
                             </NavItem>
                             <NavItem>
                                 <button
-                            type="button"
-                            className="btn btn-info mx-2 option-btn"
-                            onClick={this.handleNewCommentClick}
-                            role="button"
-                        >
-                            <FontAwesomeIcon icon={faComment} /> Report Reaction
-                        </button>
-                        </NavItem>
+                                    type="button"
+                                    className="btn btn-info mx-sm-2 my-1 my-sm-0 option-btn"
+                                    onClick={this.handleNewCommentClick}
+                                    role="button"
+                                >
+                                    <FontAwesomeIcon icon={faComment} /> Report Reaction
+                                </button>
+                            </NavItem>
                         </Nav>
-                    </Collapse> 
-                  </div>
+                    </div>
                 </Navbar>
-                
-                
-                
-                
+
                 <div className="container">
-                <div className="row">
-                    
-        
-                    {this.state.showComments && <Comments comments={this.state.comments} />}
-                    
-                    <div className="col-sm-12 col-lg-3">
-                        <ul className="list-group">
-                            <h5 className="mb-2">Ingredients</h5>
-                            {ingredientList}
-                        </ul>
+                    <div className="py-1">
+                        {this.state.showComments && <Comments comments={this.state.comments} />}
                     </div>
-                    <div className="col-sm-12 col-lg-7">
-                        <h5 className="mb-2">Preparation Instructions</h5>
-                        <div
-                            dangerouslySetInnerHTML={{__html: `${recipeInstruction}`.replace(/\n/g, '<br />')}}
-                        />
+                    
+                    <div className="d-none d-md-block">
+                        <div className="d-flex flex-row">
+                            <div className="d-flex flex-column mr-md-2 ingredients">
+                                <ul className="list-group">
+                                    <h5 className="mb-2 align-self-center">Ingredients</h5>
+                                        {ingredientList}
+                                        <div className="align-self-center">{ingredientListLoading}</div>
+                                </ul>
+                            </div>
+                            <div className="d-flex flex-column instruction">
+                                <div className="d-flex flex-column align-items-center">
+                                    <h5 className="mb-2">Preparation Instructions</h5>
+                                    <div
+                                        dangerouslySetInnerHTML={{__html: `${recipeInstruction}`.replace(/\n/g, '<br />')}}
+                                    />
+                                    {instructionLoading}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                </div>
+                    <div className="d-block d-md-none">
+                        <div className="d-flex flex-column">
+                            <div className="d-flex flex-column mr-md-2 mb-2">
+                                <ul className="list-group">
+                                    <h5 className="mb-2 align-self-center">Ingredients</h5>
+                                        {ingredientList}
+                                        <div className="align-self-center">{ingredientListLoading}</div>
+                                </ul>
+                            </div>
+                            <div className="d-flex flex-column">
+                                <div className="d-flex flex-column align-items-center">
+                                    <h5 className="mb-2">Preparation Instructions</h5>
+                                    <div
+                                        dangerouslySetInnerHTML={{__html: `${recipeInstruction}`.replace(/\n/g, '<br />')}}
+                                    />
+                                    {instructionLoading}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> {/* end of container for ingredients and instructions */}
+             
                 <Modal isOpen={this.state.isLoginModalOpen} toggle={this.toggleLoginModal}>
                     <ModalHeader closeButton toggle={this.toggleLoginModal}>
                         Login
