@@ -5,7 +5,7 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def create
-    image = Cloudinary::Uploader.upload(params[:image], public_id: params[:name], overwrite: true, height: 454, width: 500, crop: "scale")
+    image = Cloudinary::Uploader.upload(params[:image], public_id: params[:image].original_filename, overwrite: true, height: 454, width: 500, crop: "scale")
     
     recipe = Recipe.create!(name: params[:name], ingredients: [], instruction: params[:instruction], image: image["url"])
     JSON.parse(params[:ingredients]).each do |i|

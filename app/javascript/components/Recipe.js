@@ -262,7 +262,7 @@ class Recipe extends React.Component {
                 <div className="container py-1">    
                     <div className="d-none d-md-block">
                         <div className="d-flex flex-row">
-                            <div className="d-flex flex-column mr-md-2 ingredients">
+                            <div className="d-flex flex-column mr-md-3 ingredients">
                                 <ul className="list-group">
                                     <h5 className="mb-2 align-self-center">Ingredients</h5>
                                         {ingredientList}

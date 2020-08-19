@@ -81,7 +81,7 @@ class Header extends React.Component {
                         <img src={logo} width="70" height="70" alt="logo" />
                         <div className="ml-2 align-self-center font-weight-light title"><span>R</span>ecipe<span>R</span>esponse<span>R</span>eporter</div>
                     </NavbarBrand>
-                    <NavbarToggler onClick={this.toggleNav} />
+                    <NavbarToggler onClick={this.toggleNav} className="my-1 my-md-0" />
                     <Collapse isOpen={this.state.isNavOpen} navbar>    
                         <Nav navbar className="d-flex flex-column flex-md-row justify-content-between align-items-center ml-auto" id="custom-nav">
                             <NavItem className="mb-1 mb-md-0">
