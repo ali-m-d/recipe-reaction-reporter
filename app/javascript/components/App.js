@@ -15,11 +15,13 @@ class App extends React.Component {
         
         this.state = {
             loggedInStatus: "NOT_LOGGED_IN",
-            user: {}
+            user: {},
+            currentPage: 1
         };
         
         this.handleLogin = this.handleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
+        this.setCurrentPage = this.setCurrentPage.bind(this);
     }
     
     checkLoginStatus() {
@@ -70,6 +72,12 @@ class App extends React.Component {
         localStorage.clear();
     }
     
+    setCurrentPage(pageNumber) {
+        this.setState({
+            currentPage: pageNumber
+        });
+    }
+    
     render() {
         return(
             <div className="app">
@@ -94,7 +102,12 @@ class App extends React.Component {
                         <Route exact 
                             path={"/recipes"} 
                             render={props => (
-                                <Recipes {...props} loggedInStatus={this.state.loggedInStatus} />
+                                <Recipes 
+                                    {...props}
+                                    loggedInStatus={this.state.loggedInStatus}
+                                    currentPage={this.state.currentPage}
+                                    setCurrentPage={this.setCurrentPage}
+                                />
                             )}
                         />
                         <Route exact 

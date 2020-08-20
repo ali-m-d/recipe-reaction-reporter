@@ -2,12 +2,12 @@
  *= require_tree .
  *= require_self
  */
- 
+ /* ****** HOME ****** */
 .bg-primary-color {
     background-color: #d7f1f4;
     background-image: linear-gradient(0deg, #d7f1f4 0%, #eeddee 100%);
 }
-#homepage .bg-secondary-color {
+.bg-secondary-color {
     background-color: #c2d9d7;
 }
 .label {
@@ -17,8 +17,8 @@
     width: 10rem;
 }
 .greeter {
-        width: 60%;
-    }
+    width: 60%;
+}
 @media (max-width: 992px) {
     #homepage {
         .greeter {
@@ -32,7 +32,15 @@
         }
     }
 }
-
+/* ****** RECIPES VIEW ****** */
+.pagination .pagination-btn {
+    color: #343a40;
+}
+.selected {
+    z-index: 3;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
 /* ****** NAVBAR ****** */
 .title {
     font-size: 2rem;
@@ -117,8 +125,6 @@
         font-size: .9rem;
     }
 }
-
-/* ****** RECIPES VIEW ****** */
 .hero {
     width: 100vw;
     height: 40vh;

@@ -1,32 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
+import Pagination from '../components/Pagination';
 
 class Recipes extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            recipes: []
+            recipes: [], 
+            setRecipes: [],
+            currentPage: this.props.currentPage,
+            recipesPerPage: 4
         };
     }
     
     componentDidMount() {
         const url = "/api/v1/recipes/index";
         fetch(url)
-        .then((resp) => {
-            if (resp.ok) {
-                return resp.json();
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
             } else {
                 throw new Error('Network response not ok');
             }
         })
-        .then((resp) => {this.setState({recipes: resp})})
+        .then((res) => {this.setState({recipes: res})})
         .catch(() => {this.props.history.push('/')});
     }
     
     render() {
         const { recipes } = this.state;
-        const allRecipes = recipes.map((recipe, index) => (
+        
+        const indexOfLastRecipe = this.state.currentPage * this.state.recipesPerPage;
+        const indexOfFirstRecipe = indexOfLastRecipe - this.state.recipesPerPage;
+        const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+        
+        const allRecipes = currentRecipes.map((recipe, index) => (
          
             <div key={index} className="col-md-6 col-lg-4">
                 <div className="card mb-4">
@@ -44,7 +53,8 @@ class Recipes extends React.Component {
                                     recipe: recipe
                                 }
                             }} 
-                            className="btn btn-dark">
+                            className="btn btn-dark"
+                        >
                             View Recipe
                         </Link>
                     </div>
@@ -59,6 +69,16 @@ class Recipes extends React.Component {
             </div>
         );
         
+        const paginate = (event, pageNumber) => {
+            
+            this.setState({
+                currentPage: pageNumber 
+            });
+            event.preventDefault();
+            
+            this.props.setCurrentPage(pageNumber);
+        };
+        
         return (
             <React.Fragment>
                 <main className="container">
@@ -66,6 +86,13 @@ class Recipes extends React.Component {
                         <Link to="/recipe" className="btn btn-dark">
                             Add New Recipe
                         </Link>
+                    </div>
+                    <div className="text-center">
+                        <Pagination 
+                            recipesPerPage={this.state.recipesPerPage} 
+                            totalRecipes={recipes.length}
+                            paginate={paginate} 
+                            currentPage={this.state.currentPage} />
                     </div>
                     <div className="row">
                         {recipes.length > 0 ? allRecipes : noRecipe}
