@@ -21,7 +21,7 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: ubuntu
-  password: <%= ENV['RAILS_REACT_RECIPE_DATABASE_PASSWORD'] %>
+  password: <%= ENV['database_password'] %>
 
 development:
   <<: *default
@@ -84,4 +84,4 @@ production:
   <<: *default
   database: rails_react_recipe_production
   username: rails_react_recipe
-  password: <%= ENV['RAILS_REACT_RECIPE_DATABASE_PASSWORD'] %>
+  password: <%= ENV['database_password'] %>

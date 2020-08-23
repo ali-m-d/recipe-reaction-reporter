@@ -31,6 +31,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'cloudinary'
 gem 'rack-cors'
 gem 'carrierwave'
+gem 'rails_same_site_cookie'
+gem 'figaro'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
