@@ -2,8 +2,6 @@
  *= require_tree .
  *= require_self
  */
- 
- @import 'bootstrap/dist/css/bootstrap.min.css';
  /* ****** HOME ****** */
 .bg-primary-color {
     background-color: #d7f1f4;
@@ -27,9 +25,9 @@
             width: 100%;
         }
         .home-title {
-            font-size: 5vw;
+            font-size: 7.5vw;
             span {
-                font-size: 5.1vw;
+                font-size: 7.6vw;
             }
         }
     }
