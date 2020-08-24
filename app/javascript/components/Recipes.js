@@ -37,7 +37,7 @@ class Recipes extends React.Component {
         
         const allRecipes = currentRecipes.map((recipe, index) => (
          
-            <div key={index} className="col-md-6 col-lg-4">
+            <div key={index} className="col-md-6 col-lg-4 mx-auto">
                 <div className="card mb-4">
                     <img
                         src={recipe.image}
