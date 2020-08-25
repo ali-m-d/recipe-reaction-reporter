@@ -12,6 +12,8 @@ class Recipes extends React.Component {
             currentPage: this.props.currentPage,
             recipesPerPage: 4
         };
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
     
     componentDidMount() {
@@ -28,6 +30,39 @@ class Recipes extends React.Component {
         .catch(() => {this.props.history.push('/')});
     }
     
+    onChange(event) {
+        this.setState({[event.target.name]: event.target.value});
+    }
+    
+    onSubmit(event) {
+        event.preventDefault();
+        const url = "/api/v1/recipes/search";
+        
+        const formData = new FormData();
+        formData.append('term', this.state.term);
+        
+        const token = document.querySelector('meta[name="csrf-token"]').content;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                "X-CSRF-Token": token,
+            },
+            body: formData
+        })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error('Network response was not ok');
+            }
+        })
+        .then((res) => {
+            this.setState({recipes: res});
+            this.props.setCurrentPage(1);
+        })
+        .catch((err) => {console.log(err.message)});
+    }
+    
     render() {
         const { recipes } = this.state;
         
@@ -36,7 +71,6 @@ class Recipes extends React.Component {
         const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
         
         const allRecipes = currentRecipes.map((recipe, index) => (
-         
             <div key={index} className="col-md-6 col-lg-4 mx-auto">
                 <div className="card mb-4">
                     <img
@@ -83,9 +117,9 @@ class Recipes extends React.Component {
             <React.Fragment>
                 <main className="container">
                     <div className="text-center my-2">
-                        <Link to="/recipe" className="btn btn-dark">
-                            Add New Recipe
-                        </Link>
+                        <form onSubmit={this.onSubmit}>
+                        
+                        </form>
                     </div>
                     <div className="text-center">
                         <Pagination 

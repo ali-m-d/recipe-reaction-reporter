@@ -72,14 +72,14 @@ class NewRecipe extends React.Component {
             },
             body: formData
         })
-        .then((resp) => {
-            if (resp.ok) {
-                return resp.json();
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
             } else {
                 throw new Error('Network response was not ok');
             }
         })
-        .then((resp) => {this.props.history.push(`/recipes/${resp.id}`)})
+        .then((res) => {this.props.history.push(`/recipes/${res.id}`)})
         .catch((err) => {console.log(err.message)});
     }
     

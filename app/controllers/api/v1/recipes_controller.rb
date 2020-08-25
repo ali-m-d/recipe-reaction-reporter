@@ -3,6 +3,11 @@ class Api::V1::RecipesController < ApplicationController
     recipes = Recipe.all.order(created_at: :desc)
     render json: recipes
   end
+  
+  def search
+    recipes = PgSearch.multisearch(params[:term])
+    render json: recipes
+  end
 
   def create
     image = Cloudinary::Uploader.upload(params[:image], public_id: params[:image].original_filename, overwrite: true, height: 454, width: 500, crop: "scale")
