@@ -16,12 +16,14 @@ class App extends React.Component {
         this.state = {
             loggedInStatus: "NOT_LOGGED_IN",
             user: {},
-            currentPage: 1
+            currentPage: 1,
+            searchTerm: null
         };
         
         this.handleLogin = this.handleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.setCurrentPage = this.setCurrentPage.bind(this);
+        this.setSearchTerm = this.setSearchTerm.bind(this);
     }
     
     checkLoginStatus() {
@@ -78,6 +80,12 @@ class App extends React.Component {
         });
     }
     
+    setSearchTerm(term) {
+        this.setState({
+            searchTerm: term
+        });
+    }
+    
     render() {
         return(
             <div className="app">
@@ -107,6 +115,8 @@ class App extends React.Component {
                                     loggedInStatus={this.state.loggedInStatus}
                                     currentPage={this.state.currentPage}
                                     setCurrentPage={this.setCurrentPage}
+                                    searchTerm={this.state.searchTerm}
+                                    setSearchTerm={this.setSearchTerm}
                                 />
                             )}
                         />

@@ -16,6 +16,9 @@ class Comments extends React.Component {
         }
     }
     render() {
+        const noComments = (
+            <div>No reactions have been submitted reported for this recipe.</div> 
+        );
         const { comments } = this.state;
         const allComments = comments.map((comment, index) => (
             <blockquote key={index} className="blockquote mb-1 comment">
@@ -26,7 +29,7 @@ class Comments extends React.Component {
 
         return(
             <div className="container">
-                {allComments}
+                {allComments > 0 ? allComments : noComments }
             </div>
         );
     }

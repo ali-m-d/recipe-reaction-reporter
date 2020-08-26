@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'recipes/index'
       post 'recipes/search', to: 'recipes#search'
-      post 'recipes/create'
+      post 'recipes/create', to: 'recipes#create'
       post 'recipes/:id/comments', to: 'comments#create'
       get 'recipes/:id', to: 'recipes#show'
       get 'recipes/:id/comments', to: 'comments#index'
