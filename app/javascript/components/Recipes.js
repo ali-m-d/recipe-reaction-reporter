@@ -33,6 +33,11 @@ class Recipes extends React.Component {
                 searchTerm: this.props.searchTerm
             });    
         }
+        if(this.props.currentPage !== prevProps.currentPage) {
+            this.setState({
+                currentPage: this.props.currentPage
+            });    
+        }
     }
     
     fetchAllRecipes() {
