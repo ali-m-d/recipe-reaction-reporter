@@ -5,7 +5,7 @@ class Api::V1::RecipesController < ApplicationController
   end
   
   def search
-    recipes = PgSearch.multisearch(params[:term])
+    recipes = PgSearch.multisearch(params[:term]).map{|result| Recipe.find(result.searchable_id)}
     render json: recipes
   end
 

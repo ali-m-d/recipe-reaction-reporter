@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'recipes/index'
+      post 'recipes/search', to: 'recipes#search'
       post 'recipes/create'
       post 'recipes/:id/comments', to: 'comments#create'
       get 'recipes/:id', to: 'recipes#show'

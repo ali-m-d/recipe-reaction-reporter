@@ -5,10 +5,5 @@ class Recipe < ApplicationRecord
     validates :instruction, presence: true
     has_many :comments, dependent: :destroy
     
-    multisearchable against: [:name, :ingredients],
-                    using: {
-                        tsearch: {
-                            prefix: true
-                        }
-                    }
+    multisearchable against: [:name, :ingredients]
 end
